@@ -1,0 +1,12 @@
+@import url('https://cdn.fontcdn.ir/Font/Persian/Sahel/Sahel.css');
+h1, h2, h3, h4, h5, h6, p{
+    direction: rtl;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+    font-family: 'Sahel';
+}
+p{
+    font-size: 20px;
+    font-weight: 500;
+}
