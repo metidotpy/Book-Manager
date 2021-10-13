@@ -1,0 +1,26 @@
+{% extends 'registration/admin-account/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+Sended
+{% endblock %}
+
+<style>
+    thead{
+        text-align: center;
+    }
+</style>
+
+{% block content %}
+<div class="col-md-8 text-center mx-auto">
+    <div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title mb-0 float-left">Activation Email Sended</h3>
+    </div>
+    <div class="card-body py-4">
+            <p class="py-2">Your Activation Code is Sended Your Email.</p>
+            <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+    </div>
+</div>
+{% endblock %}

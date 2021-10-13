@@ -1,0 +1,77 @@
+{% extends 'registration/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+
+{% block title %}Signup{% endblock %}
+
+{% block title_for_form %}<h1>SIGNUP</h1>{% endblock %}
+
+
+{% block content %}
+<div class="formDiv" style="transition-delay: 0.2s">
+<p>USERNAME</p>
+{{ form.username }}
+</div>
+<div class="row">
+    <div class="col-6">
+        <div class="formDiv" style="transition-delay: 0.4s">
+        <p>FIRST NAME</p>
+        {{ form.first_name }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="formDiv" style="transition-delay: 0.6s">
+        <p>LAST NAME</p>
+        {{ form.last_name }}
+        </div>
+    </div>
+
+    <div class="col-6">
+        <div class="formDiv" style="transition-delay: 0.8s">
+        <p>EMAIL</p>
+        {{ form.email }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="formDiv" style="transition-delay: 1.0s">
+        <p>PHONE</p>
+        {{ form.phone }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="formDiv" style="transition-delay: 1.2s">
+        <p>Password</p>
+        {{ form.password1 }}
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="formDiv" style="transition-delay: 1.4s">
+        <p>Password Confirmation</p>
+        {{ form.password2 }}
+        </div>
+    </div>
+    <div class="formDiv col-12 mt-3" style="transition-delay: 1.6s">
+        <button class="acceptBtn" type="submit">Signup</button>
+        <span class="register">
+        Do You Have an Account?<a href="{% url 'login' %}">Login</a></span>
+    </div>
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger mt-3">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger mt-3">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+{% block height %}650px{% endblock %}

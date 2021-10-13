@@ -1,0 +1,29 @@
+{% extends 'registration/admin-account/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block title %}
+Delete User
+{% endblock %}
+
+<style>
+    thead{
+        text-align: center;
+    }
+</style>
+
+{% block content %}
+<div class="col-md-8 text-center mx-auto">
+    <div class="card card-danger">
+    <div class="card-header">
+        <h3 class="card-title mb-0 float-left">User Delete</h3>
+    </div>
+    <div class="card-body py-4">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p class="py-2">Are You Sure About Delete «{{ object.username }}» ?</p>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

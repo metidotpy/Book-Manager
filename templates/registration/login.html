@@ -1,0 +1,46 @@
+{% extends 'registration/base.html' %}
+{% load widget_tweaks %}
+
+{% block title %}Login{% endblock %}
+
+{% block title_for_form %}<h1>LOGIN</h1>{% endblock %}
+
+
+{% block content %}
+<div class="row">
+    <div class="formDiv col-12" style="transition-delay: 0.2s">
+    <p>USERNAME OR EMAIL OR PHONE</p>
+    {{ form.username }}
+    </div>
+    <div class="formDiv col-12" style="transition-delay: 0.4s">
+    <p>PASSWSORD</p>
+    {{ form.password }}
+    </div>
+    <div class="formDiv col-12 mt-3" style="transition-delay: 0.6s">
+    <button class="acceptBtn" type="submit">Login</button>
+    <span class="register">
+    Need an account?<a href="{% url 'signup' %}">Register</a></span>
+
+    <span class="register">
+        Forgot Your Password?<a href="{% url 'password_reset' %}">Reset Your Password</a></span>
+    </div>
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger mt-3">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger mt-3">
+                <strong>{{ error }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+</div>
+{% endblock %}
+
+{% block height %}550px{% endblock %}
+
+

@@ -1,0 +1,102 @@
+{% load static %}
+{% load base_tags %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<!-- Sidebar -->
+    <div class="sidebar">
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        {% if request.user.is_superuser or request.user.is_access %}
+            <li class="nav-item">
+                <a href="" class="nav-link active">
+                <i class="nav-icon fas fa-list"></i>
+                <p>
+                    Admin
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="" class="nav-link active">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            User
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                {% link request 'account:user_list' 'User List' 'fas fa-user' %}
+                            </li>
+                            <li class="nav-item">
+                                {% link request 'account:user_create' 'User Create' 'fas fa-plus-square' %}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="" class="nav-link active">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>
+                            Book
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                {% link request 'account:book_list' 'Book List' 'fas fa-book' %}
+                            </li>
+                            <li class="nav-item">
+                                {% link request 'account:book_create' 'Book Create' 'fas fa-plus-square' %}
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+        <li class="nav-item">
+            <a href="" class="nav-link active">
+            <i class="nav-icon fas fa-list"></i>
+            <p>
+                Books
+                <i class="right fas fa-angle-left"></i>
+            </p>
+            </a>
+            <ul class="nav nav-treeview">
+            <li class="nav-item">
+                {% link request 'books:index' 'Books' 'fas fa-book' %}
+            </li>
+            <li class="nav-item">
+                {% link request 'books:read' 'Read Books' 'fas fa-book' %}
+            </li>
+            <li class="nav-item">
+                {% link request 'books:unread' 'Unread Books' 'fas fa-book' %}
+            </li>
+            <li class="nav-item">
+                {% link request 'books:random' 'Random Books' 'fas fa-book' %}
+            </li>
+            <li class="nav-item">
+                {% link request 'books:create' 'Insert New Book' 'fas fa-plus-square' %}
+            </li>
+            </ul>
+        </li>
+        <li class="nav-item">
+            {% link request 'account:password_change' 'Change Password' 'fas fa-key' %}
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'logout' %}" class="nav-link">
+            <i class="nav-icon fas fa-sign-out-alt"></i>
+            <p>
+                Logout
+            </p>
+            </a>
+        </li>
+        </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

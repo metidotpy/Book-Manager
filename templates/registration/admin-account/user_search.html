@@ -1,0 +1,98 @@
+{% extends 'registration/admin-account/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Book List</h3>
+
+            <div class="card-tools">
+            <form method="GET" action="{% url 'account:user_search' %}" class="input-group input-group-sm" style="width: 150px;">
+                {% csrf_token %}
+                <input type="search" name="table_search" class="form-control float-right" placeholder="Search">
+
+                <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <!-- /.card-header -->
+        {% if object_list %}
+        <div class="card-body table-responsive p-0">
+            <table style="text-align: center; vertical-align: middle;" class="table table-hover text-nowrap">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    {% if request.user.is_superuser %}
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                    {% endif %}
+                    <th>Acces</th>
+                    <th>Superuser</th>
+                    <th>Active</th>
+                    {% if request.user.is_superuser %}
+                        <th>Items</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for users in object_list %}
+                    <tr class="{% if request.user == users %}bg-warning{% endif %}">
+                        <td>{{ users.pk }}</td>
+                        <td>
+                            {{ users.username }}
+                        </td>
+                        <td>{{ users.first_name }}</td>
+                        <td>{{ users.last_name }}</td>
+                        {% if user.is_superuser %}
+                            <td>{{ users.email }}</td>
+                            <td>{{ users.phone }}</td>
+                        {% endif %}
+                        <td>
+                            {% if users.is_access %}
+                                <i style="color: green;" class="fas fa-plus-circle"></i>
+                            {% else %}
+                                <i style="color: red;" class="fas fa-minus-circle"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if users.is_superuser %}
+                                <i style="color: green;" class="fas fa-plus-circle"></i>
+                            {% else %}
+                                <i style="color: red;" class="fas fa-minus-circle"></i>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if users.is_active %}
+                                <i style="color: green;" class="fas fa-plus-circle"></i>
+                            {% else %}
+                                <i style="color: red;" class="fas fa-minus-circle"></i>
+                            {% endif %}
+                        </td>
+                        {% if request.user.is_superuser %}
+                        <td>
+                            <a class="p-1" style="color: red;" href="{% url 'account:user_delete' users.pk %}"><i style="color:red;" class="fas fa-trash-alt"></i></a>
+                            <a class="p-1" href="{% url 'account:user_update' users.pk %}"><i class="text-muted fas fa-edit"></i></a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+        {% else %}
+            <h2 class="text-muted p-5">There is Nothing To Show</h2>
+        {% endif %}
+        <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,56 @@
+{% extends 'books/base.html' %}
+
+{% block title %}Unread Books{% endblock %}
+
+{% block navbar %}
+<nav class="navbook">
+    <ul>
+        <li><a href="{% url 'books:index' %}">Books</a></li>
+        <li><a href="{% url 'books:read' %}">Read</a></li>
+        <li><a href="{% url 'books:random' %}">Random</a></li>
+    </ul>
+</nav>
+{% endblock %}
+
+{% block content %}
+{% for book in object_list %}
+<tr>
+    <td><a href="{% url 'books:details' book.book_slug %}">{{ book.book_name }}</a></td>
+    <td><a href="{% url 'books:details' book.book_slug %}">{{ book.book_writer }}</a></td>
+    <td><a href="{% url 'books:details' book.book_slug %}">{{ book.book_description|striptags|truncatewords:5 }}</a></td>
+    <td><a href="{% url 'books:details' book.book_slug %}"><img src="{{ book.book_image.url }}" alt="{{ book.book_name }}"></a></td>
+  <td align="center" valign="center" style="position: relative;" class="no-padding text-center">
+    {% if book.book_status %}
+        <label class="checkbox-wrap checkbox-primary">
+            <input type="checkbox" checked>
+            <a class="checkmark" href="{% url 'books:false' book.pk %}"></a>
+        </label>
+    {% else %}
+        <label class="checkbox-wrap checkbox-primary">
+            <input type="checkbox">
+            <a class="checkmark" href="{% url 'books:true' book.pk %}"></a>
+        </label>
+    {% endif %}
+  </td>
+  <td>
+    <a href="{% url 'books:delete' book.pk %}"><i class="fas fa-trash-alt"></i></a>
+  </td>
+  <td>
+    <a href="{% url 'books:update' book.pk %}"><i style="color: #eaeaea;" class="fas fa-edit"></i></a>
+  </td>
+</tr>
+{% endfor %}
+{% endblock %}
+
+{% block buttons %}
+{% if is_paginated %}
+<div class="next-pre">
+    {% if page_obj.has_previous %}
+    <a class=" btn btn1" href="{% url 'books:unread' page_obj.previous_page_number %}">Previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+    <a class=" btn btn2" href="{% url 'books:unread' page_obj.next_page_number %}">Next</a>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}

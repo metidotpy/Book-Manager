@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>{{ object.book_name }}</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="{% static 'books/details/css/styles.css' %}" rel="stylesheet" />
+        <link rel="stylesheet" href="{% static 'books/details/css/rtl.css' %}">
+    </head>
+    <style type="text/css">
+        p{
+            font-size: 20px;
+        }
+    </style>
+    <body>
+        <!-- Responsive navbar-->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="{% url 'books:index' %}">Book Manager</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'books:index' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'books:create' %}">Insert Book</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'books:read' %}">Read Book</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'books:unread' %}">Unread Book</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'books:random' %}">Random</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Page content-->
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <article>
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <h1 class="fw-bolder mb-1">کتاب {{ object.book_name }}</h1>
+                            <div dir="ltr" class="text-muted fst-italic mb-2">
+                                Posted on {{ object.book_datetime }} by {{ object.book_author.get_full_name }}
+                            </div>
+                        </header>
+                        <!-- Preview image figure-->
+                        <figure class="mb-4"><img style="width:900px; height:400px; object-fit: cover;" class="img-fluid rounded" src="{{ object.book_image.url }}" alt="..." /></figure>
+                        <!-- Post content-->
+                        <section class="mb-5">
+                            {{ object.book_description|safe|linebreaks }}
+                        </section>
+                        
+                    </article>
+                </div>
+            </div>
+        </div>
+        <!-- Footer-->
+        <footer class="py-5 bg-dark">
+            <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Metidotpy</p></div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'books/details/js/scripts.js' %}"></script>
+    </body>
+</html>

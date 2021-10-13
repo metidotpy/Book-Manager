@@ -1,0 +1,51 @@
+{% extends 'registration/admin-account/base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="row">
+    <!-- left column -->
+    <div class="col-md-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Admin Panel | {{ user.get_full_name }}</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card-body">
+            <div class="form-group">
+                <div class="row">
+                <div class="col-12">
+                    {{ form.username|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                    {{ form.first_name|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                    {{ form.last_name|as_crispy_field }}
+                </div> 
+                <div class="col-6">
+                    {{ form.email|as_crispy_field }}
+                </div>
+                <div class="col-6">
+                    {{ form.phone|as_crispy_field }}
+                </div>
+                {% if request.user.is_superuser %}
+                    <div class="col-6">{{ form.is_superuser|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.is_access|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.is_active|as_crispy_field }}</div>
+                    <div class="col-6">{{ form.is_staff|as_crispy_field }}</div>
+                {% endif %}
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+                </div>
+            </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

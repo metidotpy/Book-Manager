@@ -1,0 +1,5 @@
+{% autoescape off %}
+Hello {{ user.username }}.
+Welcome To Book Manager.
+Click Here For Confirm Your Email: http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+{% endautoescape %}

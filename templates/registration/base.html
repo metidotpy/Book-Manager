@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% endblock %}</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.transit/0.9.12/jquery.transit.js" integrity="sha256-mkdmXjMvBcpAyyFNCVdbwg4v+ycJho65QLDwVE3ViDs=" crossorigin="anonymous"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="{% static 'registration/css/style.css' %}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+<style>
+  #container , .acceptContainer::before, .logoContainer::before{
+  background: url({% static 'registration/images/background.jpg' %});
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: cover !important;
+}
+
+.logoContainer::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.65);
+}
+</style>
+<body>
+<!-- partial:index.partial.html -->
+<!-- NORMALIZED CSS INSTALLED-->
+<!-- View settings for more info.-->
+<div id="container">
+  <div id="inviteContainer">
+    <div class="logoContainer"><img class="logo" src="{% static 'registration/images/book.png' %}"/><h2 class="text">Book Manager</h2></div>
+    <div class="acceptContainer" style="overflow:scroll;height:{% block height %}{% endblock %};">
+      <form method="POST">
+        {% csrf_token %}
+        {% block title_for_form %}{% endblock %}
+        <div class="formContainer">
+              {% block content %}{% endblock %}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- partial -->
+  <script  src="{% static 'registration/js/script.js' %}"></script>
+
+</body>
+</html>

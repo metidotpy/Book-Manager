@@ -1,0 +1,99 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
+	<link rel="stylesheet" href="{% static 'books/List/css/style.css' %}">
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+	</head>
+	<style>
+		label{
+			padding: 0 !important;
+			margin: 0 !important;
+
+		}
+		.table td.no-padding{
+			padding: 0 !important;
+		}
+		
+	</style>
+	<body>
+		<main>
+			<div class="profile-box">
+				<a href="{% url 'profile' %}"><img class="profile-avatar" src="{{ user.avatar.url }}" alt=""></a>
+				<center><a href="{% url 'profile' %}"><span class="profile-username text-light">{{ user.username }}</span></a></center>
+			</div>
+			<div class="right-side">
+				<a href="{% url 'logout' %}"><span class="text-light">Logout</span></a>
+				<a href="{% url 'books:create' %}"><span class="text-light">Insert Book</span></a>
+			</div>
+		</main>
+	<section class="ftco-section">
+		<div class="container">
+			{% if request.user.is_superuser or request.user.is_access %}
+				<nav class="navbook" style="margin-bottom: 1.5rem; margin-left:auto;margin-right:auto; width:40%">
+					<ul>
+						<li><a href="{% url 'account:book_list' %}">Books</a></li>
+						<li><a href="{% url 'account:user_list' %}">Users</a></li>
+					</ul>
+				</nav>
+			{% endif %}
+			{% block navbar %}
+			{% endblock %}
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<!-- <h2 class="heading-section">Readest Bo</h2> -->
+				</div>
+			</div>
+			<form method="POST">
+				{% csrf_token %}
+			<div class="row">
+				<div class="col-md-12">
+					<div class="table-wrap">
+						<table class="table table-bordered table-dark table-hover">
+						  <thead>
+						    <tr>
+						      <th>Book Name</th>
+							  <th>Book Writer</th>
+						      <th>Details</th>
+						      <th>Image</th>
+							  <th>Readest</th>
+							  <th>Delete</th>
+							  <th>Edit</th>
+						    </tr>
+						  </thead>
+						  <tbody>
+							  {% block content %}
+							  {% endblock %}
+							 </tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			{% block buttons %}
+			{% endblock %}
+		</form>
+		</div>
+	
+	</section>
+
+	<script src="{% static 'books/List/js/jquery.min.js' %}"></script>
+  <script src="{% static 'books/List/js/popper.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'books/List/js/main.js' %}"></script>
+  <script>
+
+  </script>
+
+	</body>
+</html>
+
