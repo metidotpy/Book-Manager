@@ -41,8 +41,8 @@
             python3 or python managed.py makemigrations
             python3 or python managed.py migrate
         ```
-4. ### the fourth step you must create `library/email_info.py` and `library/database_info.py`
-   + #### add this variables to the `.env-sample`
+4. ### the fourth step you must compelete `.env-sample` and rename it to `.env`
+   + #### add this variables to the `.env`
         ```python
             EMAIL_USE_TLS = True # if you use gmail
             EMAIL_HOST = 'smtp.gmail.com' # if you use gmail
@@ -50,7 +50,7 @@
             EMAIL_HOST_USER = 'youremail@gmail.com'
             EMAIL_HOST_PASSWORD = 'your password'
         ```
-    + #### add this variables to the `.env-sample` the default database engine is postgresql you can change it if you want
+    + #### add this variables to the `.env` the default database engine is postgresql you can change it if you want
         ```python
             NAME = 'Your Database Name'
             USER = 'Your Database Username'
