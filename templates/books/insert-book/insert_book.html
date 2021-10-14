@@ -77,9 +77,6 @@
                     <div class="col-12">{{ form.book_description|as_crispy_field }}</div>
                     <div class="col-4">{{ form.book_status|as_crispy_field }}</div>
                     <div class="col-4">{{ form.book_image|as_crispy_field }}</div>
-                    {% if user.is_superuser %}
-                      <div class="col-12">{{ form.book_author|as_crispy_field }}</div>
-                    {% endif %}
                     <div class="col-12">
                     <button type="submit" class="btn btn-primary">Insert</button>
                     </div>

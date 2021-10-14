@@ -23,20 +23,20 @@
     {% if book.book_status %}
         <label class="checkbox-wrap checkbox-primary">
             <input type="checkbox" checked>
-            <a class="checkmark" href="{% url 'books:false' book.pk %}"></a>
+            <a class="checkmark" href="{% url 'books:false' book.book_slug %}"></a>
         </label>
     {% else %}
         <label class="checkbox-wrap checkbox-primary">
             <input type="checkbox">
-            <a class="checkmark" href="{% url 'books:true' book.pk %}"></a>
+            <a class="checkmark" href="{% url 'books:true' book.book_slug %}"></a>
         </label>
     {% endif %}
   </td>
   <td>
-    <a href="{% url 'books:delete' book.pk %}"><i class="fas fa-trash-alt"></i></a>
+    <a href="{% url 'books:delete' book.book_slug %}"><i class="fas fa-trash-alt"></i></a>
   </td>
   <td>
-    <a href="{% url 'books:update' book.pk %}"><i style="color: #eaeaea;" class="fas fa-edit"></i></a>
+    <a href="{% url 'books:update' book.book_slug %}"><i style="color: #eaeaea;" class="fas fa-edit"></i></a>
   </td>
 </tr>
 {% endfor %}

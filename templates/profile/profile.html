@@ -34,7 +34,7 @@
                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                      <label class="for_image">
                      {{ form.avatar|add_class:'form-control'|as_crispy_field }}
-                     <img id="output" class="rounded-circle mt-5" width="150px" src="{{ object.avatar.url }}">
+                     <img id="output" class="rounded-circle mt-5 avatar" src="{{ object.avatar.url }}">
                      </label>
                   
                   <span class="font-weight-bold">{{ object.get_full_name }}</span><span class="text-black-50">{{ object.email }}</span><span> </span>

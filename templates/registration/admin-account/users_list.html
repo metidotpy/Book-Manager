@@ -54,7 +54,7 @@
                         </td>
                         <td>{{ users.first_name }}</td>
                         <td>{{ users.last_name }}</td>
-                        <td>{{ user.get_avatar }}</td>
+                        <td>{{ users.get_avatar }}</td>
                         {% if user.is_superuser %}
                             <td>{{ users.email }}</td>
                             <td>{{ users.phone }}</td>
