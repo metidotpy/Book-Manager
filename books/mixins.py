@@ -40,15 +40,3 @@ class GetAuthor():
         # else raise 404 page
         else:
             raise Http404()
-
-# get field for create book
-class GetField():
-    # make a dispatch
-    def dispatch(self, request, *args, **kwargs):
-        # if user is superuser get this fields
-        if request.user.is_superuser:
-            self.fields = ['book_name', 'book_writer', 'book_description', 'book_image', 'book_status', 'book_author']
-        # else get this fields
-        else:
-            self.fields = ['book_name', 'book_writer', 'book_description', 'book_image', 'book_status']
-        return super().dispatch(request, *args, **kwargs)

@@ -20,7 +20,7 @@ urlpatterns = [
     path('read/<int:page>', views.BookTrue.as_view(), name='read'),
     path('random/', views.BookRandom.as_view(), name='random'),
     path('random/<int:page>', views.BookRandom.as_view(), name='random'),
-    path('true/<int:pk>', views.true_book, name='true'),
-    path('false/<int:pk>', views.false_book, name='false'),
+    path('true/<slug:slug>', views.true_book, name='true'),
+    path('false/<slug:slug>', views.false_book, name='false'),
     path('delete/<slug:slug>', views.BookDelete.as_view(), name='delete'),
 ]

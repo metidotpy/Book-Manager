@@ -5,7 +5,7 @@ from django.urls.base import reverse
 from django.views.generic import ListView, DeleteView, CreateView, DetailView, UpdateView, TemplateView
 from .models import BookModel
 from django.urls import reverse_lazy
-from .mixins import SetAuthorMixin, AuthorMixin, GetAuthor, GetField
+from .mixins import SetAuthorMixin, AuthorMixin, GetAuthor
 import random
 import uuid
 from account.forms import PasswordChangeForm
@@ -101,7 +101,7 @@ class BookRandom(LoginRequiredMixin, ListView):
 
 
 # create book view
-class BookCreate(LoginRequiredMixin, SetAuthorMixin, GetField, CreateView):
+class BookCreate(LoginRequiredMixin, SetAuthorMixin, CreateView):
     # make form validation
     def form_valid(self, form):
         # save form, commit false, if commit false you can edit object
@@ -116,15 +116,19 @@ class BookCreate(LoginRequiredMixin, SetAuthorMixin, GetField, CreateView):
 
     # our model
     model = BookModel
+    # our fields
+    fields = ['book_name', 'book_writer', 'book_description', 'book_image', 'book_status']
     # template name
     template_name = 'books/insert-book/insert_book.html'
     # success_url
     success_url = reverse_lazy('books:index')
 
 # update book view
-class BookUpdate(LoginRequiredMixin, GetAuthor, GetField, UpdateView):
+class BookUpdate(LoginRequiredMixin, GetAuthor, UpdateView):
     # our model
     model = BookModel
+    # our fields
+    fields = ['book_name', 'book_writer', 'book_description', 'book_image', 'book_status']
     # use slug instead pk
     slug_field = 'book_slug'
     # template name
@@ -172,9 +176,9 @@ class PasswordChangeDoneView(LoginRequiredMixin, PasswordChangeDoneView):
     template_name = 'registration/password_change_done.html'
 
 # make true books
-def true_book(request, pk):
+def true_book(request, slug):
     # get book
-    book = BookModel.objects.get(pk = pk)
+    book = BookModel.objects.get(book_slug = slug)
     # book_status eq to true
     book.book_status = True
     # save book
@@ -183,9 +187,9 @@ def true_book(request, pk):
     return redirect(reverse_lazy('books:index'))
 
 # make false book
-def false_book(request, pk):
+def false_book(request, slug):
     # get book
-    book = BookModel.objects.get(pk = pk)
+    book = BookModel.objects.get(book_slug = slug)
     # book_status eq to false
     book.book_status = False
     # save book
