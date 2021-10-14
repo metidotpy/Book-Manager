@@ -16,7 +16,7 @@ from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 from books.models import BookModel
-from .mixins import GetAccessMixin, GetAccessCreateMixin, SetAuthorMixin, SetNotAccessMixin, GetUserFormsMixin, UpdateUserFormMixin, UserDeleteAccessMixin
+from .mixins import GetAccessMixin, GetAccessCreateMixin, SetAuthorMixin, SetNotAccessMixin, GetUserFormsMixin, UpdateUserFormMixin, UserDeleteAccessMixin, ReturnIfAuthenticateMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView
@@ -24,8 +24,8 @@ from .forms import UserFormAccess, UserFormNotAccess, UserFormEdit, UserFormEdit
 
 # Create your views here.
 
-# login view it inheritance from LoginView in djanggo.contrib.auth.views.LoginView and im change success url according to user access
-class LoginView(LoginView):
+# login view it inheritance from LoginView in django.contrib.auth.views.LoginView and im change success url according to user access
+class LoginView(ReturnIfAuthenticateMixin ,LoginView):
     #for redirect users
     redirect_authenticated_user = True
 
@@ -52,7 +52,7 @@ class PasswordChangeDoneView(LoginRequiredMixin, GetAccessMixin, PasswordChangeD
     template_name = 'registration/admin-account/password_change_done.html'
 
 # register view (you can registration with email confirm link)
-class CreateUser(SetNotAccessMixin ,CreateView):
+class CreateUser(SetNotAccessMixin, ReturnIfAuthenticateMixin, CreateView):
     # get form class for registration users
     form_class = UserForm
     # our model is User
@@ -122,6 +122,7 @@ def activate(request, uidb64, token):
         else:
             #else go to site
             return render(request, 'email-confirmation/confirmed.html')
+        return render(request, 'email-confirmation/confirmed.html')
     else:
         # if user authenticate with token false
         if request.user.is_authenticated:
@@ -132,6 +133,7 @@ def activate(request, uidb64, token):
         else:
             #else go to site
             return render(request, 'email-confirmation/not_confirmed.html')
+        return render(request, 'email-confirmation/not_confirmed.html')
 
 
 # show book list view for admins
@@ -248,7 +250,7 @@ class UserSearch(LoginRequiredMixin, GetAccessMixin, ListView):
     template_name = 'registration/admin-account/user_search.html'
 
 # create user from admin panel
-class UserCreate(LoginRequiredMixin, GetAccessMixin, GetUserFormsMixin,CreateView):
+class UserCreate(LoginRequiredMixin,GetAccessMixin, GetUserFormsMixin,CreateView):
     # our model
     model = User
     # validation our form
@@ -357,10 +359,55 @@ class Profile(LoginRequiredMixin, UpdateView):
     # template name
     template_name = 'profile/profile.html'
     # success url
-    success_url = reverse_lazy('profile')
+    success_url = reverse_lazy('books:index')
     # our fields for update
     fields = ['username', 'email', 'phone', 'avatar','first_name', 'last_name']
     # get user object
     def get_object(self):
         # return User
-        return User.objects.get(pk = self.request.user.pk)
+        self.user = User.objects.get(pk = self.request.user.pk) 
+        self.user_email = self.user.email
+        return self.user
+    # validate form
+    def form_valid(self, form):
+        # we are save user with commit false if commit false you can change anything to the object and save it later
+        user = form.save(commit=False)
+        # if superuser or access change email without confirmation
+        if self.request.user.is_superuser:
+            user.is_active = True
+            user.save()
+        else:
+        # check if email eq to email user or not
+            if not user.email == self.user_email:
+                # user activation to false if active is false user cant login and work to the site
+                self.user.is_active = False
+                # we save user with is_active eq to false
+                self.user.save()
+                # get current site url
+                current_site = get_current_site(self.request)
+                # subject for send mail
+                mail_subject = 'Activate Your Account'
+                # our message, im use render to string a html file
+                # it give an html file and renders to string for send to user
+                message = render_to_string('email-confirmation/email_template.html', {
+                    # get current user
+                    'user': self.user,
+                    # our domain we get in in current_site
+                    'domain': current_site.domain,
+                    # make a uid for token with user.pk
+                    'uid':urlsafe_base64_encode(force_bytes(self.user.pk)),
+                    # create token only for this user
+                    'token':account_activation_token.make_token(self.user),
+                })
+                # send email for user email in registration page
+                to_email = form.cleaned_data.get('email')
+                # send email with Email Message
+                email = EmailMessage(
+                            mail_subject, message, to=[to_email]
+                )
+                # send email
+                email.send()
+                # render page to confirmation send
+                return render(self.request, 'email-confirmation/email_send_login.html')
+
+        return super().form_valid(form)

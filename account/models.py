@@ -70,4 +70,4 @@ class User(AbstractUser):
     # send image for admin panel
     def get_avatar(self):
         # return image html
-        return format_html('<img src="{}" width="30" style="border-radius:50%;" />'.format(self.avatar.url))
+        return format_html('<img src="{}" width="30" style="object-fit: cover;border-radius:50%;" />'.format(self.avatar.url))

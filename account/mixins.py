@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.http import Http404
 from .models import User
 from .forms import UserFormAccess, UserFormNotAccess, UserFormEdit, UserFormEditAccess, UserFormAccessOnlyYouSuper, UserFormAccessOnlyYou
@@ -88,3 +89,13 @@ class UserDeleteAccessMixin():
             return super().dispatch(request, *args, **kwargs)
         else:
             raise Http404()
+# this mixin redirect user to home if user is authenticate
+class ReturnIfAuthenticateMixin():
+    # dispatch method
+    def dispatch(self, request, *args, **kwargs):
+        # if user is authenticate return to home
+        if request.user.is_authenticated:
+            return redirect('books:index')
+        # else return the page
+        else:
+            return super().dispatch(request, *args, **kwargs)

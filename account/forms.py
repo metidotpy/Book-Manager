@@ -25,8 +25,7 @@ class UserForm(UserCreationForm):
         # our model
         model = User
         # our fields
-        fields = ['first_name', 'last_name', 'username', 'email', 'phone', 'avatar','password1', 'password2']
-    avatar = forms.ImageField(label=None ,widget=forms.FileInput(attrs={'disabled':True}))
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone','password1', 'password2']
 # update user form
 class UserFormEdit(forms.ModelForm):
     # meta class
@@ -37,10 +36,10 @@ class UserFormEdit(forms.ModelForm):
         fields = ['username', 'first_name', 'last_name', 'avatar']
     
     # make disabled some fields
-    username = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    avatar = forms.ImageField(label=None ,widget=forms.FileInput(attrs={'disabled':True}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    avatar = forms.ImageField(label=None ,widget=forms.FileInput(attrs={'readonly':True}))
 
 # update user form
 class UserFormEditAccess(forms.ModelForm):
@@ -51,12 +50,12 @@ class UserFormEditAccess(forms.ModelForm):
         # our fields
         fields = ['username', 'first_name', 'last_name', 'email', 'phone', 'avatar','is_superuser', 'is_access', 'is_active', 'is_staff']
     # make disabled some fields
-    username = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    first_name = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    last_name = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    email = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    phone = forms.CharField(widget=forms.TextInput(attrs={'disabled':True}))
-    avatar = forms.ImageField(label=None ,widget=forms.FileInput(attrs={'disabled':True}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    email = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    phone = forms.CharField(widget=forms.TextInput(attrs={'readonly':True}))
+    avatar = forms.ImageField(label=None ,widget=forms.FileInput(attrs={'readonly':True}))
 
 # registration user in admin panel for superusers
 class UserFormAccess(UserCreationForm):
