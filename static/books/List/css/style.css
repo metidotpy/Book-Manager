@@ -8447,6 +8447,7 @@ img.profile-avatar{
   width: 40px;
   height: 40px;
   border-radius: 20px;
+  object-fit: cover;
 }
 span.profile-username{
   padding:0 10px;

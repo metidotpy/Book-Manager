@@ -11273,3 +11273,17 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+
+img.profile-avatar{
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+a.profile-link{
+  text-decoration: none;
+}
+span.profile-username{
+  padding: 0 10px;
+}
+

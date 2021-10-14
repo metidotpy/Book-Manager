@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from account.views import activate, CreateUser, LoginView, Profile
-from django.contrib.auth.views import LogoutView
+from django.contrib.auth.views import LogoutView, PasswordResetCompleteView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from books.views import PasswordChangeView, PasswordChangeDoneView
 
 app_name = 'library'
@@ -24,8 +24,11 @@ app_name = 'library'
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include('books.urls')),
-    path('', include('django.contrib.auth.urls')),
-    path('login/', LoginView.as_view(), name='login'),
+    path('password_reset/', PasswordResetView.as_view(), name='password_reset'),
+    path('password_reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+    path('login/', LoginView.as_view(redirect_authenticated_user=True), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', CreateUser.as_view(), name='signup'),
     path('adminpanelhide/', include('account.urls')),
