@@ -236,7 +236,7 @@ class UserSearch(LoginRequiredMixin, GetAccessMixin, ListView):
                 )
             #search user for fields
             elif self.request.user.is_access:
-                userresult = BookModel.objects.filter(
+                userresult = User.objects.filter(
                     Q(username__contains = query) | Q(first_name__contains = query) | Q(last_name__contains = query) | Q(pk__contains = query)
                 )
             # search user for fields
